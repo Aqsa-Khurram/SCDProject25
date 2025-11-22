@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: scd25-mongo-compose
+    volumes:
+      - scd25-mongo-data:/data/db
+    networks:
+      - scd25-network
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: scd25-backend-compose
+    ports:
+      - "${PORT}:3000"
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - PORT=${PORT}
+    depends_on:
+      - mongo
+    networks:
+      - scd25-network
+    restart: unless-stopped
+
+volumes:
+  scd25-mongo-data:
+
+networks:
+  scd25-network:
+    driver: bridge
+

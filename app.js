@@ -37,8 +37,8 @@ const backupVault = async () => {
 
 // --- Routes ---
 
-// Get record by ID
-app.get('/todo/:id', async (req, res) => {
+// Get record by ID (vault)
+app.get('/vault/:id', async (req, res) => {
     try {
         const record = await Vault.findOne({ id: req.params.id });
         if (!record) return res.status(404).json({ message: "Record not found" });
@@ -86,7 +86,7 @@ app.get('/export', async (req, res) => {
     res.json({ message: 'Data exported successfully to export.txt' });
 });
 
-// Add Record (example endpoint)
+// Add Record
 app.post('/vault', async (req, res) => {
     const { id, name } = req.body;
     const newRecord = new Vault({ id, name });
